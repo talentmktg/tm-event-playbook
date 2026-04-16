@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TM Event Playbook 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0e;
+    --ink-2: #3a3935;
+    --ink-3: #7a7870;
+    --ink-4: #b8b5ad;
+    --cream: #f7f5f0;
+    --cream-2: #edeae2;
+    --cream-3: #e2ded4;
+    --virtual: #1a4d3a;
+    --virtual-light: #e6f2ec;
+    --virtual-mid: #2d7a5a;
+    --inperson: #3d2b1a;
+    --inperson-light: #f5ede4;
+    --inperson-mid: #a0522d;
+    --governance: #1a2a4d;
+    --governance-light: #e6eaf5;
+    --governance-mid: #3a5bbf;
+    --ai: #3d1a4a;
+    --ai-light: #f0e8f5;
+    --ai-mid: #8b35bf;
+    --accent: #d4521a;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--ink);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+  .site-header .logo span {
+    color: var(--accent);
+  }
+  .header-meta {
+    font-size: 11px;
+    color: var(--ink-4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 52px 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(212,82,26,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: var(--cream);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    max-width: 560px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--cream-3);
+  }
+  .hero-desc {
+    font-size: 15px;
+    color: var(--ink-4);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--ink-4);
+    letter-spacing: 0.04em;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--cream-3);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    position: sticky;
+    top: 60px;
+    z-index: 90;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 16px 20px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background: none;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+  .nav-tab .tab-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* MAIN LAYOUT */
+  .main-content {
+    padding: 32px 40px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* PANEL */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* SECTION HEADERS */
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-bottom: 28px;
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  /* STEP CARDS */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--cream-3);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .step-card:hover {
+    border-color: var(--ink-4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .step-card.expanded { border-color: var(--ink); }
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 0;
+  }
+  .step-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink-4);
+    line-height: 1;
+    min-width: 28px;
+  }
+  .step-info { flex: 1; }
+  .step-timing {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .step-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .step-summary {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+  .step-expand {
+    font-size: 18px;
+    color: var(--ink-4);
+    transition: transform 0.2s;
+    align-self: center;
+  }
+  .step-card.expanded .step-expand { transform: rotate(45deg); }
+  .step-body {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cream-3);
+  }
+  .step-card.expanded .step-body { display: block; }
+  .task-list { list-style: none; }
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--cream-2);
+  }
+  .task-item:last-child { border-bottom: none; }
+  .task-check {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--cream-3);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .task-check:hover { border-color: var(--ink-4); }
+  .task-check.checked {
+    background: var(--ink);
+    border-color: var(--ink);
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .task-text { flex: 1; }
+  .task-text .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+  .tag-gem { background: var(--ai-light); color: var(--ai-mid); }
+  .tag-zoom { background: #e8f0ff; color: #2255cc; }
+  .tag-ai { background: var(--ai-light); color: var(--ai-mid); }
+  .tag-dace { background: var(--governance-light); color: var(--governance-mid); }
+  .tag-template { background: #fff8e6; color: #996600; }
+
+  /* DACE TABLE */
+  .dace-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0 0;
+  }
+  .dace-table th {
+    background: var(--cream-2);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--cream-3);
+  }
+  .dace-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--cream-2);
+    vertical-align: top;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .dace-table tr:last-child td { border-bottom: none; }
+  .owner-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+  .owner-tm { background: var(--virtual-light); color: var(--virtual); }
+  .owner-ta { background: var(--inperson-light); color: var(--inperson); }
+  .owner-t4i { background: var(--governance-light); color: var(--governance); }
+  .owner-both { background: var(--cream-2); color: var(--ink-3); }
+
+  /* KPI CARDS */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .kpi-card {
+    background: var(--white);
+    border: 1px solid var(--cream-3);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+  .kpi-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  /* ZOOM SETTINGS */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .setting-block {
+    background: var(--cream);
+    border: 1px solid var(--cream-3);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .setting-block h5 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .setting-item {
+    font-size: 12px;
+    color: var(--ink-2);
+    padding: 3px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .setting-check { color: #2d7a5a; font-size: 12px; flex-shrink: 0; }
+
+  /* GEM PROMPTS */
+  .gem-prompt {
+    background: var(--ai-light);
+    border: 1px solid rgba(139,53,191,0.2);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin: 12px 0;
+  }
+  .gem-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ai-mid);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gem-label::before {
+    content: '✦';
+    font-size: 10px;
+  }
+  .gem-text {
+    font-size: 13px;
+    color: var(--ai);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* RESOURCE LINKS */
+  .resource-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--white);
+    border: 1px solid var(--cream-3);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-2);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .resource-link:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .resource-link .link-icon { font-size: 13px; }
+
+  /* TRACK COLOR THEMES */
+  .virtual-theme .step-timing { color: var(--virtual-mid); }
+  .virtual-theme .step-num { color: rgba(45,122,90,0.4); }
+  .inperson-theme .step-timing { color: var(--inperson-mid); }
+  .inperson-theme .step-num { color: rgba(160,82,45,0.4); }
+
+  /* INFO CALLOUT */
+  .callout {
+    border-left: 3px solid;
+    padding: 14px 16px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: 20px 0;
+  }
+  .callout-info { background: var(--governance-light); border-color: var(--governance-mid); }
+  .callout-warning { background: #fff8e6; border-color: #cc8800; }
+  .callout-tip { background: var(--virtual-light); border-color: var(--virtual-mid); }
+  .callout-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .callout-info .callout-title { color: var(--governance-mid); }
+  .callout-warning .callout-title { color: #996600; }
+  .callout-tip .callout-title { color: var(--virtual-mid); }
+  .callout p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+  /* RESULTS TABLE */
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--cream-3);
+  }
+  .results-table th {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .results-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--cream-2);
+    color: var(--ink-2);
+    vertical-align: middle;
+  }
+  .results-table tr:last-child td { border-bottom: none; }
+  .results-table tr:hover td { background: var(--cream); }
+  .event-type-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .pill-virtual { background: var(--virtual-light); color: var(--virtual); }
+  .pill-inperson { background: var(--inperson-light); color: var(--inperson); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--cream-3);
+    margin: 32px 0;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--cream-3);
+    border-radius: 4px;
+    height: 6px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--ink);
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* PROGRESS BAR STRIP */
+  .track-progress {
+    background: var(--white);
+    border: 1px solid var(--cream-3);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .track-progress-left { flex: 1; }
+  .track-progress-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    background: var(--cream-3);
+    border-radius: 4px;
+    height: 7px;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--ink);
+    width: 0%;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-count { font-size: 11px; color: var(--ink-3); }
+  .reset-btn {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-4);
+    background: none;
+    border: 1px solid var(--cream-3);
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .reset-btn:hover { border-color: var(--ink-4); color: var(--ink-3); }
+
+  /* GOOGLE SHEETS BANNER */
+  .sheets-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: #f0f7f4;
+    border: 1px solid #b6deca;
+    border-radius: var(--radius-sm);
+    padding: 13px 18px;
+    margin-bottom: 24px;
+  }
+  .sheets-banner-left { display: flex; align-items: center; gap: 12px; }
+  .sheets-icon {
+    width: 32px; height: 32px;
+    background: #1a9e60;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px;
+  }
+  .sheets-banner-text { font-size: 13px; color: #1a4d3a; }
+  .sheets-banner-text strong { font-weight: 600; display: block; margin-bottom: 1px; }
+  .sheets-banner-text span { font-size: 12px; opacity: 0.75; }
+  .sheets-link-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: #1a9e60; color: white;
+    font-size: 12px; font-weight: 600;
+    padding: 8px 16px; border-radius: 20px;
+    text-decoration: none; white-space: nowrap;
+    transition: background 0.15s; cursor: pointer;
+    border: none; font-family: inherit;
+  }
+  .sheets-link-btn:hover { background: #157a4a; }
+
+  /* ANIMATION */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel.active { animation: fadeIn 0.25s ease; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--cream-3); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">TM Event Playbook <span>2.0</span></div>
+  <div class="header-meta">Talent Marketing · FY26 · Future-Forward</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Single source of truth for all TM events</div>
+  <h1>Run every event<br><em>with confidence.</em></h1>
+  <p class="hero-desc">The TM team's single source of truth for virtual and in-person events — with AI Gem prompts, step-by-step checklists, Zoom setup guidance, DACE role clarity and post-event reporting tools all in one place.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Event tracks</span></div>
+    <div class="stat"><span class="stat-num">7</span><span class="stat-label">Virtual planning phases</span></div>
+    <div class="stat"><span class="stat-num">75+</span><span class="stat-label">Checklist tasks</span></div>
+    <div class="stat"><span class="stat-num">10+</span><span class="stat-label">AI Gem prompts</span></div>
+  </div>
+</div>
+
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showPanel('virtual', event)">
+    <div class="tab-dot" style="background:#2d7a5a"></div>Virtual Events
+  </button>
+  <button class="nav-tab" onclick="showPanel('inperson', event)">
+    <div class="tab-dot" style="background:#a0522d"></div>In-Person Events
+  </button>
+  <button class="nav-tab" onclick="showPanel('zoom', event)">
+    <div class="tab-dot" style="background:#2255cc"></div>Zoom Setup Guide
+  </button>
+  <button class="nav-tab" onclick="showPanel('governance', event)">
+    <div class="tab-dot" style="background:#3a5bbf"></div>Governance & DACE
+  </button>
+  <button class="nav-tab" onclick="showPanel('metrics', event)">
+    <div class="tab-dot" style="background:#cc8800"></div>Metrics & Reporting
+  </button>
+  <button class="nav-tab" onclick="showPanel('resources', event)">
+    <div class="tab-dot" style="background:#666"></div>Resources & Templates
+  </button>
+</nav>
+
+<div class="main-content">
+
+  <!-- ===== VIRTUAL EVENTS PANEL ===== -->
+  <div class="panel active virtual-theme" id="panel-virtual">
+    <div class="section-eyebrow">Track 01 — Virtual Events</div>
+    <h2 class="section-title">Webinars, simulives & virtual chats</h2>
+    <p class="section-desc">Full lifecycle for CP2E and Pro virtual events. Use the Virtual Event Checklist below as the standard template. Steps are shared across teams — team-specific callouts are noted inline where workflows differ.</p>
+    <div class="callout callout-tip" style="margin-bottom: 20px;">
+      <div class="callout-title">Event Frequency & Timing</div>
+      <p><strong>Avoid:</strong> Winter holidays (late Nov–Jan), early summer (June–July), spring break, and any major Intuit company-wide event weeks — attendance drops significantly.<br>
+      <strong>Best windows:</strong> Sept–Oct and Feb–Apr tend to perform strongest for both CP2E and Pro events.<br>
+      <strong>Spacing:</strong> Allow at least 2–3 weeks between events targeting the same audience to avoid list fatigue.<br>
+      <strong>Timing:</strong> Mid-week (Tue–Thu), 8am–12pm PT performs best across both teams based on historical data.</p>
+    </div>
+
+
+    <div class="sheets-banner">
+      <div class="sheets-banner-left">
+        <div class="sheets-icon">📊</div>
+        <div class="sheets-banner-text">
+          <strong>Prefer a working checklist you can fill in?</strong>
+          <span>Open the Virtual Event Checklist in Google Sheets — make a copy for each new event, add due dates, owners, and notes.</span>
+        </div>
+      </div>
+      <a class="sheets-link-btn" href="https://docs.google.com/spreadsheets/d/1d7g-5snlq4G7unH8R4bLe71zlP7KW0fU/edit?usp=sharing&ouid=111325661992984101647&rtpof=true&sd=true" target="_blank">
+        ↗ Open in Google Sheets
+      </a>
+    </div>
+
+    <div class="track-progress">
+      <div class="track-progress-left">
+        <div class="track-progress-title">Your progress — virtual events track</div>
+        <div class="progress-track"><div class="progress-bar-fill"></div></div>
+        <div class="progress-count">0 tasks complete</div>
+      </div>
+      <button class="reset-btn" onclick="resetPanel('panel-virtual')">↺ Reset</button>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-title">T4i Update — FY26</div>
+      <p>T4i no longer supports webinar setup. All webinars are now self-hosted via your Zoom Enterprise license. See the <strong>Zoom Setup Guide</strong> tab for complete settings. If T4i is still involved for a specific event, their production role begins on event day only.</p>
+    </div>
+
+    <div class="steps-grid">
+      <!-- STEP 1 -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">01</div>
+          <div class="step-info">
+            <div class="step-timing">5–8 weeks out</div>
+            <div class="step-name">Pre-Planning & Strategy</div>
+            <div class="step-summary">Define goals, confirm speakers, schedule all milestone meetings</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Define event objective and target audience (awareness, conversion, nurture)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Identify and confirm speakers/panelists — lean on recruiters to source <span class="tag tag-dace">TA assist</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Request speaker headshots and bios</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Confirm date, time, and webinar format (live / simulive / rebroadcast)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send calendar holds for speakers, Q&A support, and dry run</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Submit Zoom support ticket (if needed) <span class="tag tag-zoom">Zoom</span></div></li>
+          </ul>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt</div>
+            <div class="gem-text">"I'm planning a [CP2E / Pro] webinar for [audience segment] on [topic]. Target date is [date]. Suggest 3 topic angles, a speaker profile template, and a 6-week planning timeline."</div>
+          </div>
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-3);">
+            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 10px;">Speaker selection criteria</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">What to look for</div>
+                <ul style="list-style: none; font-size: 12px; color: var(--ink-2); line-height: 1.8;">
+                  <li>✓ Resonates with brand &amp; target audience</li>
+                  <li>✓ Brings relevant, current expertise</li>
+                  <li>✓ Diverse backgrounds &amp; perspectives</li>
+                  <li>✓ Has presented or spoken before</li>
+                  <li>✓ Available for dry run + event day</li>
+                </ul>
+              </div>
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Sourcing process</div>
+                <ul style="list-style: none; font-size: 12px; color: var(--ink-2); line-height: 1.8;">
+                  <li>→ Ask recruiters to nominate candidates</li>
+                  <li>→ Check past webinar panelist lists</li>
+                  <li>→ Look for recent conference speakers</li>
+                  <li>→ TTL/QBL speakers: contact via Resources &amp; Templates tab</li>
+                  <li>→ Brief speakers on goals, audience &amp; logistics</li>
+                </ul>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--ink-3); background: var(--ai-light); border-radius: var(--radius-sm); padding: 10px 12px; font-style: italic;">
+              <span style="font-weight: 600; color: var(--ai-mid); font-style: normal;">✦ Gem prompt:</span> "Suggest a speaker outreach email for a [CP2E / Pro] webinar on [topic] targeting [audience]. The speaker is [name/role]. Tone: warm and professional."
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- STEP 2 — SIMULIVE / REBROADCAST -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">02</div>
+          <div class="step-info">
+            <div class="step-timing">5–8 weeks out</div>
+            <div class="step-name">Choose Your Event Format</div>
+            <div class="step-summary">Live webinar, simulive, or rebroadcast — pick the right format before building anything</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
+            <div style="background: var(--virtual-light); border: 1px solid rgba(45,122,90,0.2); border-radius: var(--radius-sm); padding: 12px 14px;">
+              <div style="font-size: 12px; font-weight: 600; color: var(--virtual); margin-bottom: 6px;">Live Webinar</div>
+              <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Real-time interaction with panelists and attendees. Best for Q&amp;A-heavy events, new audiences, or high-conversion goals. Requires full production support.</div>
+              <div style="font-size: 11px; color: var(--virtual-mid); margin-top: 8px; font-weight: 500;">Best for: recruitment, brand awareness, high-intent audiences</div>
+            </div>
+            <div style="background: var(--cream); border: 1px solid var(--cream-3); border-radius: var(--radius-sm); padding: 12px 14px;">
+              <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Simulive</div>
+              <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Pre-recorded content played live with a live host moderating chat/Q&amp;A. Reduces speaker dependency while keeping audience engagement. CP2E primary format.</div>
+              <div style="font-size: 11px; color: var(--ink-3); margin-top: 8px; font-weight: 500;">Best for: recurring series, cost efficiency, consistent delivery</div>
+            </div>
+            <div style="background: var(--cream); border: 1px solid var(--cream-3); border-radius: var(--radius-sm); padding: 12px 14px;">
+              <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Rebroadcast</div>
+              <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Fully pre-recorded — no live host. Maximises reach across time zones and geographies with minimal resource cost. Best for extending an existing event.</div>
+              <div style="font-size: 11px; color: var(--ink-3); margin-top: 8px; font-weight: 500;">Best for: Canada / international audiences, off-peak reach</div>
+            </div>
+          </div>
+          <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px;">
+            <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 8px;">Key differences at a glance</div>
+            <table style="width:100%; font-size: 11px; border-collapse: collapse;">
+              <tr style="background: var(--cream-3);">
+                <td style="padding: 5px 8px; font-weight: 600;"></td>
+                <td style="padding: 5px 8px; font-weight: 600; color: var(--virtual);">Live</td>
+                <td style="padding: 5px 8px; font-weight: 600;">Simulive</td>
+                <td style="padding: 5px 8px; font-weight: 600;">Rebroadcast</td>
+              </tr>
+              <tr><td style="padding: 5px 8px; color: var(--ink-3);">Speaker needed day-of</td><td style="padding: 5px 8px;">Yes</td><td style="padding: 5px 8px;">Host only</td><td style="padding: 5px 8px;">No</td></tr>
+              <tr style="background: var(--cream);"><td style="padding: 5px 8px; color: var(--ink-3);">Live Q&amp;A</td><td style="padding: 5px 8px;">Yes</td><td style="padding: 5px 8px;">Yes (host moderates)</td><td style="padding: 5px 8px;">No</td></tr>
+              <tr><td style="padding: 5px 8px; color: var(--ink-3);">Production effort</td><td style="padding: 5px 8px;">High</td><td style="padding: 5px 8px;">Medium</td><td style="padding: 5px 8px;">Low</td></tr>
+              <tr style="background: var(--cream);"><td style="padding: 5px 8px; color: var(--ink-3);">Zoom setup required</td><td style="padding: 5px 8px;">Full setup</td><td style="padding: 5px 8px;">Full setup</td><td style="padding: 5px 8px;">Minimal</td></tr>
+              <tr><td style="padding: 5px 8px; color: var(--ink-3);">Typical use</td><td style="padding: 5px 8px;">Pro series, IM events</td><td style="padding: 5px 8px;">CP2E TTL/QBL series</td><td style="padding: 5px 8px;">Canada, off-season reach</td></tr>
+            </table>
+          </div>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt</div>
+            <div class="gem-text">"I'm planning a [CP2E / Pro] event for [audience] on [topic]. Should this be a live webinar, simulive, or rebroadcast? Consider our team capacity, audience size, and goal of [awareness / conversion / nurture]."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 (was 2) -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">03</div>
+          <div class="step-info">
+            <div class="step-timing">4 weeks out</div>
+            <div class="step-name">Assets & Setup</div>
+            <div class="step-summary">Build emails, registration page, banners, and Zoom configuration</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Draft all email copy: invite 1, invite 2, confirmation, reminders, post-event <span class="tag tag-ai">AI draft</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Design Zoom registration banner (use Adobe Express template) <span class="tag tag-template">Template</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Build registration page in Eloqua</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Set up Zoom webinar with all required settings (see Zoom Setup Guide tab) <span class="tag tag-zoom">Zoom</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Create CID tracking links for all emails and registration page</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Set up SurveyMonkey post-event survey with standard questions</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Add event to Airtable campaign tracker</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Define audience segmentation — <span style="color:var(--virtual-mid);font-weight:500;">CP2E:</span> segment by hire-ability, manage suppression lists · <span style="color:var(--governance-mid);font-weight:500;">Pro:</span> define audience parameters and special requirements</div></li>
+          </ul>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt</div>
+            <div class="gem-text">"Write 3 subject line options and full email copy for a webinar invite. Audience: [segment]. Topic: [title]. Tone: [professional/conversational]. Include a clear CTA to register."</div>
+          </div>
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-3);">
+            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 10px;">Culture of testing</div>
+            <p style="font-size: 12px; color: var(--ink-2); margin-bottom: 10px; line-height: 1.6;">Continuously test to improve performance. Run one test per send — change only one variable at a time so results are meaningful.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Email invite testing</div>
+                <ul style="list-style: none; font-size: 12px; color: var(--ink-2); line-height: 1.8;">
+                  <li>→ Subject line variations</li>
+                  <li>→ Send day &amp; time</li>
+                  <li>→ Number of reminder emails</li>
+                  <li>→ Content &amp; creative</li>
+                  <li>→ CTA copy and placement</li>
+                </ul>
+              </div>
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Webinar testing</div>
+                <ul style="list-style: none; font-size: 12px; color: var(--ink-2); line-height: 1.8;">
+                  <li>→ Day and time of webinar</li>
+                  <li>→ Webinar length</li>
+                  <li>→ Webinar title</li>
+                  <li>→ Format (Live vs. Simulive)</li>
+                  <li>→ Webinar ads &amp; promotion channels</li>
+                </ul>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--ink-3); background: var(--ai-light); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 10px; font-style: italic;">
+              <span style="font-weight: 600; color: var(--ai-mid); font-style: normal;">✦ Gem prompt:</span> "Based on our last [event name] results, suggest 2 tests we could run for the next event to improve [open rate / attendance / NPS]. Keep suggestions specific and measurable."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">04</div>
+          <div class="step-info">
+            <div class="step-timing">2–3 weeks out</div>
+            <div class="step-name">Promotion & Comms</div>
+            <div class="step-summary">Send invite 1, launch social, schedule all remaining emails</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send email invite 1 via Eloqua — CP2E: 1 week out · Pro: 2–3 weeks out — verify send counts and suppressions</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Schedule email invite 2 (1 week later) and all reminder emails 1 week and 1 day prior to event</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send panelists their promotion materials and speaker brief</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Post on Handshake and relevant Slack channels <span class="tag tag-dace">Pro</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Post on Intuit Alumni Network LinkedIn group <span class="tag tag-dace">Pro</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Run LinkedIn ads via Pro Campaign Manager or ad agency support <span class="tag tag-dace">Pro</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Share social copy with Digital Ambassadors and partner orgs</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Partner with diversity orgs for additional promotion — leverage partner networks to amplify reach</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Prepare canned responses for common attendee questions during event <span class="tag tag-dace">Pro</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">05</div>
+          <div class="step-info">
+            <div class="step-timing">1 week out</div>
+            <div class="step-name">Final Prep & Dry Run</div>
+            <div class="step-summary">Finalize deck, prep T4i brief, run tech check with all panelists</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Finalize webinar slide deck and share with all panelists</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Complete T4i briefing doc: timing, slide notes, Q&A instructions, run-of-show <span class="tag tag-dace">T4i brief</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Conduct 30-min dry run with host and all panelists — confirm video, audio, poll flow</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Prepare backup Q&A questions in case audience is quiet</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Verify Zoom email settings: banner updated, reminders scheduled <span class="tag tag-zoom">Zoom</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Check inbox for attendee questions and send Zoom join links</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Prepare live chat messages: hiring links, survey link, academy info</div></li>
+          </ul>
+          <div class="callout callout-tip" style="margin-top:12px;">
+            <div class="callout-title">T4i Brief Reminder</div>
+            <p>Always send T4i the run-of-show 48 hours in advance. Specify: exact start time, when to stop music, slide progression cues, what to display during Q&A. Use the T4i template in Resources tab.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">06</div>
+          <div class="step-info">
+            <div class="step-timing">Day of event</div>
+            <div class="step-name">Event Execution</div>
+            <div class="step-summary">15-min early start, tech check, moderate live event</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Start Zoom webinar 15 min early — practice session with panelists and hosts only</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Play intro music loop while attendees join (audio file in Resources &amp; Templates tab)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Disable chat for attendees, enable Q&A, confirm panelist chat settings <span class="tag tag-zoom">Zoom</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Launch polls at designated slide moments — allow panelists to vote, share results</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Post live chat messages: survey link, talent community link, job application link</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">07</div>
+          <div class="step-info">
+            <div class="step-timing">Within 1 week after</div>
+            <div class="step-name">Post-Event & Reporting</div>
+            <div class="step-summary">Send follow-ups, pull metrics, capture learnings, host recording</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send thank you email to attendees (with recording link, survey, application link)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send "missed you" email to non-attendees (recording link, nurture)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Download and upload Zoom attendee list, registration list, Q&amp;A list and recording to Google Drive</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Upload recording to Vidyard — add to CP2E and Pro Talent Community Hubs</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Analyze metrics: registrations, attendees, attendance rate, NPS, email open/click rates <span class="tag tag-ai">AI analyze</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Log your event results for your own records (see Metrics tab)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Convert landing page to on-demand with form/gated approach (Pro)</div></li>
+          </ul>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt — Post-Event Analysis</div>
+            <div class="gem-text">"Analyze these event results: [paste Eloqua data, Zoom attendance, SurveyMonkey export]. Summarize key metrics, identify top insights from qualitative comments, and suggest 3 improvements for next time."</div>
+          </div>
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-3);">
+            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 10px;">Feedback &amp; continuous improvement</div>
+            <p style="font-size: 12px; color: var(--ink-2); margin-bottom: 10px; line-height: 1.6;">Go beyond SurveyMonkey. Use multiple feedback channels to build a complete picture of what worked and what to improve.</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;">
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--virtual); margin-bottom: 6px;">SurveyMonkey</div>
+                <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Primary post-event feedback tool. Captures quantitative NPS and qualitative comments from attendees. Send within 24 hours of event close.</div>
+              </div>
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Speaker debrief</div>
+                <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Informal Slack or quick call with panelists within 1–2 days. Ask: what went well, what felt off, any audience reactions to note. Send spotlight as a thank you.</div>
+              </div>
+              <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
+                <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Audience interviews (FMH)</div>
+                <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Conduct periodic 1:1 interviews with target audience members for deeper qualitative insight — not after every event, but at least once per series or quarter.</div>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--ink-3); background: var(--ai-light); border-radius: var(--radius-sm); padding: 10px 12px; font-style: italic;">
+              <span style="font-weight: 600; color: var(--ai-mid); font-style: normal;">✦ Gem prompt:</span> "Here are SurveyMonkey comments from our last event: [paste comments]. Identify the top 3 themes, flag any negative sentiment, and suggest 2 specific improvements for next time."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== IN-PERSON PANEL ===== -->
+  <div class="panel inperson-theme" id="panel-inperson">
+    <div class="section-eyebrow">Track 02 — In-Person Events</div>
+    <h2 class="section-title">Networking events, IM events & conferences</h2>
+    <p class="section-desc">Full lifecycle for in-person TM events. Use the In-Person Event Checklist below as the standard template — adapt to your event size and site location.</p>
+    <div class="callout callout-tip" style="margin-bottom: 20px;">
+      <div class="callout-title">Event Frequency & Timing</div>
+      <p><strong>Avoid:</strong> Winter holidays (late Nov–Jan), early summer (June–July), spring break, and any major Intuit company-wide event weeks — attendance drops significantly.<br>
+      <strong>Best windows:</strong> Sept–Oct and Feb–Apr tend to perform strongest for both CP2E and Pro events.<br>
+      <strong>Spacing:</strong> Allow at least 2–3 weeks between events targeting the same audience to avoid list fatigue.<br>
+      <strong>Timing:</strong> Mid-week (Tue–Thu), 12pm PT performs best based on historical data.</p>
+    </div>
+
+
+    <div class="sheets-banner">
+      <div class="sheets-banner-left">
+        <div class="sheets-icon">📊</div>
+        <div class="sheets-banner-text">
+          <strong>Prefer a working checklist you can fill in?</strong>
+          <span>Open the In-Person Event Checklist in Google Sheets — make a copy per event, track owners, due dates, and status in one shared doc.</span>
+        </div>
+      </div>
+      <a class="sheets-link-btn" href="https://docs.google.com/spreadsheets/d/1NwmOPe9BssfRLQ8UJMC4VeDNUvQtlE4PWxUclQh6bIM/edit?gid=307869881#gid=307869881" target="_blank">
+        ↗ Open in Google Sheets
+      </a>
+    </div>
+
+    <div class="track-progress">
+      <div class="track-progress-left">
+        <div class="track-progress-title">Your progress — in-person events track</div>
+        <div class="progress-track"><div class="progress-bar-fill"></div></div>
+        <div class="progress-count">0 tasks complete</div>
+      </div>
+      <button class="reset-btn" onclick="resetPanel('panel-inperson')">↺ Reset</button>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">Site-Specific Planning</div>
+      <p>Every Intuit campus has different contacts, booking processes, and badge/parking requirements. Always check the <strong>Intuit Event Builder</strong> on Insight for your site before starting. MTV, NY, and SDG each have distinct workflows. Link to site resource in Resources tab.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">01</div>
+          <div class="step-info">
+            <div class="step-timing">6–8 weeks out</div>
+            <div class="step-name">Event Definition & Strategy</div>
+            <div class="step-summary">Define goals, audience, date, and budget — establish the DACE upfront</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Define event goals, target audience, and hiring alignment (must map to active req) <span class="tag tag-dace">DACE</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Confirm date, time, and approximate attendee count</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Identify and confirm 4–6 speakers (hiring managers from relevant teams) <span class="tag tag-dace">TA assist</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Set and confirm total budget (see budget tab in IM Event Checklist template)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Form planning team — assign DACE roles across TM and TA</div></li>
+          </ul>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt</div>
+            <div class="gem-text">"I'm planning an in-person IM event for [SWE/PM/Data] audience in [location] on [date] for approx [N] attendees. Create a full planning timeline with owners, a suggested agenda, and a speaker brief template."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">02</div>
+          <div class="step-info">
+            <div class="step-timing">4–6 weeks out</div>
+            <div class="step-name">Logistics & Venue</div>
+            <div class="step-summary">Secure space, catering, A/V, security, and site-specific requirements</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Reserve event space — submit Workplace ticket for room booking <span class="tag tag-dace">TM leads</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Submit A/V support ticket (slides, microphones, projector)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Book catering — confirm headcount, dietary options, vendor (e.g. local pop-up)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Submit guest badge and security request for all external attendees</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Order swag, raffle prizes, and any event decor</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Coordinate parking instructions for external guests</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">03</div>
+          <div class="step-info">
+            <div class="step-timing">3–4 weeks out</div>
+            <div class="step-name">Promotion & Comms</div>
+            <div class="step-summary">Source invite list, build registration, send invitations via Outlook and email</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Source and finalize invitee list by role, seniority, and org (TA provides) <span class="tag tag-dace">TA assist</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Create event name and draft all copy (invite email, Slack post, calendar invite)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Build and push Eloqua registration landing page live — include talent community opt-in</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Create CID tracking links for all comms</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send initial email invitations and Slack announcements</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send Outlook calendar invites to registered attendees</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send calendar holds and speaker decks to all presenters</div></li>
+          </ul>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt</div>
+            <div class="gem-text">"Write an email invitation for an internal mobility lunch event at Intuit [MTV/NY/SDG]. Audience: [SWE/PM/Data], [seniority level]. Event: [name], [date], [time]. Tone: warm, professional. CTA: register via link."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">04</div>
+          <div class="step-info">
+            <div class="step-timing">1–2 weeks out</div>
+            <div class="step-name">Final Prep</div>
+            <div class="step-summary">Event run-through, print collateral, finalize signage and QR codes</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Finalize event slide deck — send to all speakers for review</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Conduct event run-through with all speakers — confirm agenda, timing, Q&A format</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Design and order on-site signage: welcome sign, speaker nametags, directional signs</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Create post-event feedback survey (SurveyMonkey) — embed QR code in signage <span class="tag tag-template">QR template</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send day-before Slack reminder to registered attendees</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Confirm catering delivery time, setup crew, and room layout</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Confirm print order is delivered (nametags, table tents, QR codes)</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">05</div>
+          <div class="step-info">
+            <div class="step-timing">Day of event</div>
+            <div class="step-name">Day-Of Execution</div>
+            <div class="step-summary">Room setup, attendee check-in, manage experience end to end</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Arrive early — confirm room layout, A/V, catering setup, and signage placement</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Assign greeters to welcome and check in guests at entrance</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Distribute nametags, swag, and any event materials to attendees</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Manage event flow — keep agenda on time, coordinate speakers</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Monitor check-in list — flag high-priority attendees for recruiter follow-up</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Capture photos for content repurposing (with attendee permission)</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-card" onclick="toggleStep(this)">
+        <div class="step-header">
+          <div class="step-num">06</div>
+          <div class="step-info">
+            <div class="step-timing">Within 1 week after</div>
+            <div class="step-name">Post-Event & Follow-Up</div>
+            <div class="step-summary">Thank you emails, survey analysis, recruiter handoffs, results log</div>
+          </div>
+          <div class="step-expand">+</div>
+        </div>
+        <div class="step-body">
+          <ul class="task-list">
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Send thank you email to attendees (with survey link and next steps)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Analyze survey results — identify attendees interested in 1:1 recruiter conversation <span class="tag tag-ai">AI analyze</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Hand off high-intent attendee list to recruiting team for follow-up scheduling <span class="tag tag-dace">TA owns</span></div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Create executive summary recap — total attendees, registrants, NPS, key learnings</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Log your event results for your own records (see Metrics tab)</div></li>
+            <li class="task-item"><div class="task-check" onclick="toggleCheck(event,this)"></div><div class="task-text">Repurpose photos and content for social/newsletters</div></li>
+          </ul>
+          <div class="gem-prompt">
+            <div class="gem-label">Event Gem Prompt</div>
+            <div class="gem-text">"Analyze survey feedback from our in-person event: [paste SurveyMonkey export or key comments]. Identify the top 3 things that went well, top 3 improvements, and flag any attendees who expressed strong interest for recruiter follow-up."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ZOOM SETUP PANEL ===== -->
+  <div class="panel" id="panel-zoom">
+    <div class="section-eyebrow">Zoom Self-Setup Guide</div>
+    <h2 class="section-title">Configure your Zoom webinar</h2>
+    <p class="section-desc">T4i no longer manages webinar setup. Use this guide every time you create a new Zoom webinar. These are the standard settings.</p>
+
+    <div class="sheets-banner">
+      <div class="sheets-banner-left">
+        <div class="sheets-icon">📊</div>
+        <div class="sheets-banner-text">
+          <strong>Prefer a hands-on reference?</strong>
+          <span>Open the Zoom Self-Setup Checklist in Google Sheets — all settings in one place, ready to check off as you configure each webinar.</span>
+        </div>
+      </div>
+      <a class="sheets-link-btn" href="https://docs.google.com/spreadsheets/d/1XcyZSnSSZBOzq0tP_nhiky7YTVBLS07l/edit?gid=998888117#gid=998888117" target="_blank">
+        ↗ Open in Google Sheets
+      </a>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-title">Two Setup Modes</div>
+      <p><strong>Self-hosted:</strong> You own the Zoom Enterprise license and run slides/production yourself. Use all settings below.<br>
+      <strong>T4i production assist:</strong> You still set up the Zoom webinar, but T4i runs slides day-of. Complete all settings below — T4i begins their role on event day (see dry run step to brief T4i on their role in Virtual track).</p>
+    </div>
+
+    <div class="settings-grid">
+      <div class="setting-block">
+        <h5>Registration</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Registration: Required</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Automatically approve registrants</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Close registration after event date</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Allow attendees to join from multiple devices</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Show social share buttons on registration page</div>
+      </div>
+      <div class="setting-block">
+        <h5>Video</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Host video: OFF</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Panelist video: ON</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Attendee video: OFF (attendees can't share video)</div>
+      </div>
+      <div class="setting-block">
+        <h5>Audio</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Allow both telephone and computer audio</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Mute all attendees on entry</div>
+      </div>
+      <div class="setting-block">
+        <h5>Webinar Options</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Enable Q&A (not chat — attendees use Q&A only)</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Enable Practice Session</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Enable HD video for screen-shared content</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Enable HD video for attendees</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Always send 1080p video to attendees</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Automatically record webinar in the cloud</div>
+      </div>
+      <div class="setting-block">
+        <h5>Email Settings</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Confirmation email: Send upon registration</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Reminder: 1 hour before webinar</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Reminder: 1 day before webinar</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Reminder: 1 week before webinar</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Update banner image with event-specific creative</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Set sender email to correct series address</div>
+      </div>
+      <div class="setting-block">
+        <h5>Q&A Settings</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Allow anonymous questions: Your choice per event</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Attendees view: Answered questions only</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Allow panelists to answer via Q&A panel</div>
+      </div>
+      <div class="setting-block">
+        <h5>Polls</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Create poll before webinar — single choice format</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Download basic poll breakdown while displaying live</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Download individual-level poll breakdown after webinar</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Allow panelists to vote in polls so they can see results</div>
+      </div>
+      <div class="setting-block">
+        <h5>Post-Webinar Survey</h5>
+        <div class="setting-item"><span class="setting-check">✓</span> Use third-party survey (SurveyMonkey) — NOT Zoom's native survey</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Set survey to show in browser when webinar ends</div>
+        <div class="setting-item"><span class="setting-check">✓</span> Add survey link to live chat at end of event</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3 style="font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 16px;">Day-of production sequence</h3>
+
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden;">
+      <table class="dace-table">
+        <thead>
+          <tr><th>When</th><th>Action</th><th>Who</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>15 min before</td><td>Start webinar in Practice Session — hosts and panelists only. Tech check, confirm video/audio, assign co-host roles, review slide flow</td><td><span class="owner-badge owner-t4i">T4i / Host</span></td></tr>
+          <tr><td>At open</td><td>Admit attendees. Play intro music loop</td><td><span class="owner-badge owner-t4i">T4i</span></td></tr>
+          <tr><td>Start signal</td><td>Stop music when moderator signals. Transition to welcome slide</td><td><span class="owner-badge owner-t4i">T4i</span></td></tr>
+          <tr><td>During webinar</td><td>Advance slides per run-of-show. Launch polls at designated moments. Allow panelists to vote. Stop and share poll results</td><td><span class="owner-badge owner-t4i">T4i</span></td></tr>
+          <tr><td>Chat duty</td><td>Post live chat messages: hiring links, academy links, survey link, job application CTA</td><td><span class="owner-badge owner-tm">TM support</span></td></tr>
+          <tr><td>Q&A section</td><td>During Q&A: display blank slide or speaker image (not presentation slides). Moderate questions</td><td><span class="owner-badge owner-t4i">T4i / Host</span></td></tr>
+          <tr><td>Closing</td><td>Trigger post-webinar survey in browser. Play outro music. End webinar for all</td><td><span class="owner-badge owner-t4i">T4i / Host</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== GOVERNANCE PANEL ===== -->
+  <div class="panel" id="panel-governance">
+    <div class="section-eyebrow">Governance & DACE</div>
+    <h2 class="section-title">Roles, responsibilities & event intake</h2>
+    <p class="section-desc">Who does what — and how TM decides whether to lead, support, or decline an event request. Use the DACE tables to distribute work before the first planning meeting.</p>
+
+    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">Event intake criteria</h3>
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden; margin-bottom: 28px;">
+      <table class="dace-table">
+        <thead><tr><th>TM Role</th><th>Criteria to qualify</th><th>TM contribution</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Tier 1 — Lead</strong></td>
+            <td>High impact on sweet spot hiring goals + high % diversity talent + TA team identified to support</td>
+            <td>Full planning ownership: event-specific email campaigns, lead capture, brand lift survey, full results reporting</td>
+          </tr>
+          <tr>
+            <td><strong>Tier 2 — Support</strong></td>
+            <td>High impact on hiring goals OR high % diversity talent, with a recruiter identified</td>
+            <td>Planning support: attend key meetings, standard lead capture form, generic post-event qualification campaign</td>
+          </tr>
+          <tr>
+            <td><strong>Tier 3 — Resource only</strong></td>
+            <td>Early-career or broader talent mix; low/no hiring goal attached</td>
+            <td>Deliver event-in-a-box: iCIMS lead form setup guide, generic talent community catch-all campaign (sent quarterly)</td>
+          </tr>
+          <tr>
+            <td><strong>Decline</strong></td>
+            <td>No hiring priority alignment, no TA partner identified, or capacity is at limit</td>
+            <td>No contribution — refer to Danna's advisory guide for escalation path</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">DACE — Virtual events (webinar)</h3>
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden; margin-bottom: 28px;">
+      <table class="dace-table">
+        <thead><tr><th>Task</th><th>TM</th><th>TA / Recruiters</th><th>T4i</th></tr></thead>
+        <tbody>
+          <tr><td>Set event goals and audience</td><td><span class="owner-badge owner-tm">Driver</span></td><td><span class="owner-badge owner-ta">Approver</span></td><td>—</td></tr>
+          <tr><td>Source and confirm speakers</td><td><span class="owner-badge owner-tm">Lead</span></td><td><span class="owner-badge owner-ta">Identify candidates</span></td><td>—</td></tr>
+          <tr><td>Email copy and creative</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td>—</td></tr>
+          <tr><td>Zoom setup (all settings)</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td><span class="owner-badge owner-t4i">Day-of only</span></td></tr>
+          <tr><td>Eloqua build and CID tracking</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td>—</td></tr>
+          <tr><td>Speaker prep and dry run</td><td><span class="owner-badge owner-tm">Facilitates</span></td><td><span class="owner-badge owner-ta">Attends</span></td><td>—</td></tr>
+          <tr><td>Day-of slide production</td><td><span class="owner-badge owner-both">Host / moderator</span></td><td>—</td><td><span class="owner-badge owner-t4i">Slides (if engaged)</span></td></tr>
+          <tr><td>Post-event metrics pull</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td><span class="owner-badge owner-t4i">Download + upload</span></td></tr>
+          <tr><td>Follow-up candidate outreach</td><td><span class="owner-badge owner-tm">Emails</span></td><td><span class="owner-badge owner-ta">1:1 recruiter contact</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">DACE — In-person events</h3>
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden;">
+      <table class="dace-table">
+        <thead><tr><th>Task</th><th>TM</th><th>TA / Recruiters</th><th>Other</th></tr></thead>
+        <tbody>
+          <tr><td>Event concept and goals</td><td><span class="owner-badge owner-tm">Driver</span></td><td><span class="owner-badge owner-ta">Approver</span></td><td>—</td></tr>
+          <tr><td>Invitee list sourcing</td><td>—</td><td><span class="owner-badge owner-ta">Owner</span></td><td>—</td></tr>
+          <tr><td>Speaker identification and brief</td><td><span class="owner-badge owner-tm">Coordinates</span></td><td><span class="owner-badge owner-ta">Nominates HMs</span></td><td>—</td></tr>
+          <tr><td>Venue, catering, logistics</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td><span class="owner-badge owner-both">Workplace team</span></td></tr>
+          <tr><td>Creative and registration page</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td>—</td></tr>
+          <tr><td>Invitation emails and Slack</td><td><span class="owner-badge owner-tm">Sends</span></td><td><span class="owner-badge owner-ta">Promotes internally</span></td><td>—</td></tr>
+          <tr><td>Day-of event management</td><td><span class="owner-badge owner-both">TM + TA co-manage</span></td><td><span class="owner-badge owner-ta">Staffs greeters</span></td><td>—</td></tr>
+          <tr><td>Attendee follow-up</td><td><span class="owner-badge owner-tm">TY / MY emails</span></td><td><span class="owner-badge owner-ta">1:1 recruiter follow-up</span></td><td>—</td></tr>
+          <tr><td>Results reporting</td><td><span class="owner-badge owner-tm">Owner</span></td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== METRICS PANEL ===== -->
+  <div class="panel" id="panel-metrics">
+    <div class="section-eyebrow">Metrics & Reporting</div>
+    <h2 class="section-title">Measure every event the same way</h2>
+    <p class="section-desc">Standard KPI targets by event type, an individual event results log template, and the AI workflow for pulling and analyzing post-event data.</p>
+
+    <div class="two-col">
+      <div>
+        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Virtual — CP2E targets</h3>
+        <div class="kpi-grid">
+          <div class="kpi-card"><span class="kpi-value">20%</span><span class="kpi-label">Attendance rate</span></div>
+          <div class="kpi-card"><span class="kpi-value">+50</span><span class="kpi-label">NPS score</span></div>
+          <div class="kpi-card"><span class="kpi-value">Weekly</span><span class="kpi-label">MQL goals set</span></div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Virtual — Pro targets (ITS)</h3>
+        <div class="kpi-grid">
+          <div class="kpi-card"><span class="kpi-value">28%</span><span class="kpi-label">Attendance rate</span></div>
+          <div class="kpi-card"><span class="kpi-value">50+</span><span class="kpi-label">NPS score</span></div>
+          <div class="kpi-card"><span class="kpi-value">30%</span><span class="kpi-label">Email open rate</span></div>
+          <div class="kpi-card"><span class="kpi-value">2%</span><span class="kpi-label">Click-through rate</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Required metrics to collect — all events</h3>
+    <div class="two-col">
+      <div>
+        <h4 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); margin-bottom: 10px; font-weight: 600;">Virtual</h4>
+        <ul style="list-style: none; font-size: 13px; color: var(--ink-2);">
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Total registrations</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Total unique attendees</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Attendance rate (%)</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Total unique views (on-demand)</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">NPS score (SurveyMonkey)</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Email unique open rate</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Email click-through rate</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Handshake open rate + engagement rate (Pro)</li>
+          <li style="padding: 5px 0;">Poll results download (basic + individual breakdowns)</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); margin-bottom: 10px; font-weight: 600;">In-Person</h4>
+        <ul style="list-style: none; font-size: 13px; color: var(--ink-2);">
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Total invites sent</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Total registrants</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Total attendees (day-of check-in)</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">NPS score (SurveyMonkey)</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Survey response rate (%)</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">High-intent attendees flagged for recruiter follow-up</li>
+          <li style="padding: 5px 0; border-bottom: 1px solid var(--cream-2);">Candidates who progressed to interview / hire</li>
+          <li style="padding: 5px 0;">Budget actuals vs. estimated</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Post-event AI analysis workflow</h3>
+    <div class="gem-prompt">
+      <div class="gem-label">Step 1 — Aggregate your data sources</div>
+      <div class="gem-text">Collect: Eloqua email report (CSV) + Zoom registration list + Zoom attendee list + Zoom poll results + SurveyMonkey export. Upload all to Notebook LM or paste into the Event Gem.</div>
+    </div>
+    <div class="gem-prompt">
+      <div class="gem-label">Step 2 — Event Gem Prompt</div>
+      <div class="gem-text">"Here are results from my [event name] on [date]. Attached: Eloqua email report, Zoom attendee list, poll results, SurveyMonkey export. Summarize: (1) key quantitative metrics vs. our targets, (2) top 3 qualitative themes from survey comments, (3) what worked, (4) what to improve next time, (5) any candidates who should be flagged for recruiter follow-up based on their answers."</div>
+    </div>
+    <div class="gem-prompt">
+      <div class="gem-label">Step 3 — Log it</div>
+      <div class="gem-text">Add a row to your personal event results log. Include: event name, date, type, key KPIs, NPS, top learning, link to full wrap-up deck. Over time this becomes your own reference for benchmarking and planning future events.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px;">My event results log — <a href="https://docs.google.com/spreadsheets/d/19_Hq9oEUCQm622QQjprMHyB6BwD-Tr46/edit?usp=sharing&ouid=111325661992984101647&rtpof=true&sd=true" target="_blank" style="color: var(--governance-mid); text-decoration: none; border-bottom: 1px solid var(--governance-mid);">template</a></h3>
+    <p style="font-size: 13px; color: var(--ink-3); margin-bottom: 14px;">Use this as a personal reference to track your own events over time — make a copy and add a row after each event you run.</p>
+    <div style="overflow-x: auto;">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Team</th>
+            <th>Registrants</th>
+            <th>Attendees</th>
+            <th>Att. Rate</th>
+            <th>NPS</th>
+            <th>Email Open Rate</th>
+            <th>Top Learning</th>
+            <th>Next Action</th>
+            <th>Full Deck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Intuit Tech Stories — SWE</td>
+            <td>Sep 10, 2025</td>
+            <td><span class="event-type-pill" style="background:#e8f0ff;color:#3a5bbf;">Virtual (Pro)</span></td>
+            <td>Pro</td>
+            <td>820</td>
+            <td>198</td>
+            <td>24%</td>
+            <td style="font-weight:500;">54</td>
+            <td>32%</td>
+            <td>Attendees responded well to demo format — make demos a recurring segment</td>
+            <td>Apply demo format to Oct webinar</td>
+            <td>↗ View</td>
+          </tr>
+          <tr>
+            <td style="color: var(--ink-4); font-style: italic;" colspan="12">Your next event goes here →</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== RESOURCES PANEL ===== -->
+  <div class="panel" id="panel-resources">
+    <div class="section-eyebrow">Resources & Templates</div>
+    <h2 class="section-title">Everything in one place</h2>
+    <p class="section-desc">All tools, templates, and guides linked directly. No more digging through old decks or asking teammates where things live.</p>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 14px;">Planning templates</h3>
+    <div class="resource-links">
+      <a class="resource-link" href="https://docs.google.com/spreadsheets/d/1d7g-5snlq4G7unH8R4bLe71zlP7KW0fU/edit?usp=sharing&ouid=111325661992984101647&rtpof=true&sd=true" target="_blank"><span class="link-icon">📋</span> Virtual Event Checklist</a>
+      <a class="resource-link" href="https://docs.google.com/spreadsheets/d/1NwmOPe9BssfRLQ8UJMC4VeDNUvQtlE4PWxUclQh6bIM/edit?gid=307869881#gid=307869881" target="_blank"><span class="link-icon">📋</span> In-Person Event Checklist</a>
+      <a class="resource-link" href="https://docs.google.com/document/d/173F31yF1FuEk02BCk83bLRY6i7Rsdnrc/edit?usp=sharing&ouid=111325661992984101647&rtpof=true&sd=true" target="_blank"><span class="link-icon">📝</span> T4i Briefing Template</a>
+    </div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 14px; margin-top: 24px;">Creative assets</h3>
+    <div class="callout callout-tip" style="margin-bottom: 16px;">
+      <div class="callout-title">Adobe Express Library (In Progress)</div>
+      <p>Standardized email banner templates and event creative are being built in Adobe Express. Once published, the link will be added here.</p>
+    </div>
+    <div class="resource-links">
+      <a class="resource-link"><span class="link-icon">🎨</span> Adobe Express Templates — Coming Soon</a>
+      <a class="resource-link"><span class="link-icon">📐</span> Brand Guidelines</a>
+    </div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 14px; margin-top: 24px;">Site-specific in-person guide</h3>
+    <div class="resource-links">
+      <a class="resource-link" href="https://docs.google.com/document/d/1ken5jNvcShYj7iRn1h4-jswlqvsgkILpexsSQSeUM9A/edit?tab=t.wwhll3vqq0bw#heading=h.964dbmly320v" target="_blank"><span class="link-icon">📍</span> Workplace Experience Site Guide</a>
+    </div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 14px; margin-top: 24px;">Event Gem (AI assistant)</h3>
+    <div class="callout callout-tip">
+      <div class="callout-title">How to use the Event Gem</div>
+      <p>The Event Gem is your AI planning partner. Open it at any step in the virtual or in-person tracks and use the embedded prompts as starting points. The Gem is fed the full event knowledge base — past events, best practices, this playbook — so its answers are tailored to TM's workflows, not generic advice.</p>
+    </div>
+    <div class="resource-links" style="margin-top: 12px;">
+      <a class="resource-link"><span class="link-icon">✦</span> Open Event Gem</a>
+      <a class="resource-link"><span class="link-icon">📖</span> Gem Knowledge Base Doc</a>
+      <a class="resource-link"><span class="link-icon">💬</span> Gem Prompt Library</a>
+    </div>
+
+    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 14px; margin-top: 24px;">Key partner contacts</h3>
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden;">
+      <table class="dace-table">
+        <thead><tr><th>Team / Function</th><th>Contact / Process</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td>T4i - Virtual Event Services</td><td><a href="https://intuit.service-now.com/sp?id=sc_cat_item&sys_id=1a1cd230db63f74003166451ca961924" target="_blank" style="color: var(--governance-mid); text-decoration: none; font-weight: 500;">Submit support ticket</a></td><td>Day-of webinar production (when engaged)</td></tr>
+          <tr><td>Conference Event Services</td><td><a href="https://intuit.service-now.com/sp?id=sc_cat_item&sys_id=1a1cd230db63f74003166451ca961924" target="_blank" style="color: var(--governance-mid); text-decoration: none; font-weight: 500;">Submit support ticket</a></td><td>Room reservations, A/V, <a href="https://intuit.catertrax.com/index.asp?x=x?intCustomerID=%2A%7B%28%7E%C9" target="_blank" style="color: var(--governance-mid); text-decoration: none; font-weight: 500;">catering at all sites</a></td></tr>
+          <tr><td>Tax Specialists (CP2E)</td><td>Priscilla Soto</td><td>Sourcing Tax Specialist speakers for webinars</td></tr>
+          <tr><td>Local Tax Experts (CP2E)</td><td>Kimberly Purvis &amp; Carrie Gunnell</td><td>Sourcing Local Tax Expert speakers for webinars</td></tr>
+          <tr><td>Remote Bookkeeping Experts (CP2E)</td><td>Nikeita Wynn</td><td>Sourcing Remote Bookkeeping Expert speakers for webinars</td></tr>
+          <tr><td>Local Bookkeeping Experts (CP2E)</td><td>Luca Cataldo</td><td>Sourcing Local Bookkeeping Expert speakers for webinars</td></tr>
+          <tr><td>Scott (Design)</td><td>Internal design request</td><td>Major creative assets requiring full design support</td></tr>
+          <tr><td>SurveyMonkey</td><td>Team account — login in 1Password</td><td>All post-event attendee surveys</td></tr>
+          <tr><td>Eloqua</td><td>Via campaign request form (CRF)</td><td>Email build, send, and audience segmentation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div><!-- /main-content -->
+
+<script>
+/* ─── STORAGE KEY ─── */
+const STORAGE_KEY = 'tm_playbook_checks_v1';
+
+/* ─── LOAD saved state ─── */
+function loadChecks() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+}
+
+/* ─── SAVE state ─── */
+function saveChecks(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+/* ─── Give every task-check a stable ID based on its text content ─── */
+function getCheckId(el) {
+  const text = el.closest('.task-item')?.querySelector('.task-text')?.textContent?.trim() || '';
+  const panel = el.closest('.panel')?.id || '';
+  return panel + '::' + text.slice(0, 80);
+}
+
+/* ─── Toggle a single checkbox ─── */
+function toggleCheck(e, el) {
+  e.stopPropagation();
+  const state = loadChecks();
+  const id = getCheckId(el);
+  if (el.classList.contains('checked')) {
+    el.classList.remove('checked');
+    delete state[id];
+  } else {
+    el.classList.add('checked');
+    state[id] = true;
+  }
+  saveChecks(state);
+  updateProgress();
+}
+
+/* ─── Restore checks on page load ─── */
+function restoreChecks() {
+  const state = loadChecks();
+  document.querySelectorAll('.task-check').forEach(el => {
+    const id = getCheckId(el);
+    if (state[id]) el.classList.add('checked');
+  });
+  updateProgress();
+}
+
+/* ─── Progress bar per panel ─── */
+function updateProgress() {
+  document.querySelectorAll('.panel').forEach(panel => {
+    const all = panel.querySelectorAll('.task-check');
+    const done = panel.querySelectorAll('.task-check.checked');
+    const bar = panel.querySelector('.progress-bar-fill');
+    const label = panel.querySelector('.progress-count');
+    if (!bar || !all.length) return;
+    const pct = Math.round((done.length / all.length) * 100);
+    bar.style.width = pct + '%';
+    if (label) label.textContent = done.length + ' of ' + all.length + ' tasks complete';
+  });
+}
+
+/* ─── Reset all checks for a specific panel ─── */
+function resetPanel(panelId) {
+  const btn = document.querySelector('#' + panelId + ' .reset-btn');
+  if (btn.dataset.confirming === 'true') {
+    const state = loadChecks();
+    const panel = document.getElementById(panelId);
+    panel.querySelectorAll('.task-check').forEach(el => {
+      el.classList.remove('checked');
+      delete state[getCheckId(el)];
+    });
+    saveChecks(state);
+    updateProgress();
+    btn.textContent = '\u21ba Reset';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+    delete btn.dataset.confirming;
+  } else {
+    btn.dataset.confirming = 'true';
+    btn.textContent = 'Tap again to confirm';
+    btn.style.borderColor = '#d4521a';
+    btn.style.color = '#d4521a';
+    setTimeout(() => {
+      if (btn.dataset.confirming) {
+        btn.textContent = '\u21ba Reset';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        delete btn.dataset.confirming;
+      }
+    }, 3000);
+  }
+}
+
+/* ─── PANEL NAV ─── */
+function showPanel(name, e) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  (e || window.event).currentTarget.classList.add('active');
+}
+
+/* ─── STEP TOGGLE ─── */
+function toggleStep(card) {
+  const wasExpanded = card.classList.contains('expanded');
+  card.closest('.steps-grid').querySelectorAll('.step-card').forEach(c => c.classList.remove('expanded'));
+  if (!wasExpanded) card.classList.add('expanded');
+}
+
+/* ─── INIT ─── */
+window.addEventListener('DOMContentLoaded', () => {
+  restoreChecks();
+});
+</script>
+</body>
+</html>
