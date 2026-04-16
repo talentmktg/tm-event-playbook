@@ -8,26 +8,26 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0f0f0e;
-    --ink-2: #3a3935;
-    --ink-3: #7a7870;
-    --ink-4: #b8b5ad;
-    --cream: #f7f5f0;
-    --cream-2: #edeae2;
-    --cream-3: #e2ded4;
+    --ink: #040C1A;
+    --ink-2: #1a2538;
+    --ink-3: #5a6577;
+    --ink-4: #8d95a3;
+    --cream: #f5f7fa;
+    --cream-2: #ebeef3;
+    --cream-3: #d8dce5;
     --virtual: #1a4d3a;
     --virtual-light: #e6f2ec;
     --virtual-mid: #2d7a5a;
     --inperson: #3d2b1a;
     --inperson-light: #f5ede4;
     --inperson-mid: #a0522d;
-    --governance: #1a2a4d;
+    --governance: #0D2158;
     --governance-light: #e6eaf5;
-    --governance-mid: #3a5bbf;
+    --governance-mid: #336DFF;
     --ai: #3d1a4a;
     --ai-light: #f0e8f5;
     --ai-mid: #8b35bf;
-    --accent: #d4521a;
+    --accent: #33B5FF;
     --white: #ffffff;
     --radius: 12px;
     --radius-sm: 6px;
@@ -46,7 +46,7 @@
 
   /* HEADER */
   .site-header {
-    background: var(--ink);
+    background: linear-gradient(90deg, #040C1A 0%, #06132B 100%);
     padding: 0 40px;
     display: flex;
     align-items: center;
@@ -59,7 +59,7 @@
   .site-header .logo {
     font-family: 'DM Serif Display', serif;
     font-size: 18px;
-    color: var(--cream);
+    color: #ffffff;
     letter-spacing: -0.02em;
   }
   .site-header .logo span {
@@ -67,24 +67,33 @@
   }
   .header-meta {
     font-size: 11px;
-    color: var(--ink-4);
+    color: #7a8da8;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   /* HERO */
   .hero {
-    background: var(--ink);
-    padding: 52px 40px 48px;
+    background: linear-gradient(135deg, #040C1A 0%, #06132B 50%, #0a2040 100%);
+    padding: 56px 40px 52px;
     position: relative;
     overflow: hidden;
+    text-align: center;
   }
   .hero::before {
     content: '';
     position: absolute;
-    top: -60px; right: -60px;
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(212,82,26,0.15) 0%, transparent 70%);
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(51,181,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(51,181,255,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
   .hero-eyebrow {
@@ -98,26 +107,31 @@
   .hero h1 {
     font-family: 'DM Serif Display', serif;
     font-size: 42px;
-    color: var(--cream);
+    color: #ffffff;
     line-height: 1.1;
     letter-spacing: -0.02em;
     margin-bottom: 16px;
-    max-width: 560px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .hero h1 em {
     font-style: italic;
-    color: var(--cream-3);
+    color: var(--accent);
   }
   .hero-desc {
     font-size: 15px;
-    color: var(--ink-4);
-    max-width: 520px;
+    color: #a0b0c8;
+    max-width: 600px;
     line-height: 1.7;
     margin-bottom: 32px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .hero-stats {
     display: flex;
     gap: 32px;
+    justify-content: center;
   }
   .stat {
     display: flex;
@@ -127,12 +141,12 @@
   .stat-num {
     font-family: 'DM Serif Display', serif;
     font-size: 28px;
-    color: var(--cream);
+    color: #ffffff;
     line-height: 1;
   }
   .stat-label {
     font-size: 11px;
-    color: var(--ink-4);
+    color: #7a8da8;
     letter-spacing: 0.04em;
   }
 
@@ -683,6 +697,93 @@
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--cream); }
   ::-webkit-scrollbar-thumb { background: var(--cream-3); border-radius: 3px; }
+
+  /* TABLE SCROLL WRAPPER */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ─── RESPONSIVE: TABLET (≤ 768px) ─── */
+  @media (max-width: 768px) {
+    .site-header { padding: 0 20px; height: 52px; }
+    .site-header .logo { font-size: 16px; }
+    .header-meta { font-size: 10px; }
+
+    .hero { padding: 36px 20px 32px; }
+    .hero h1 { font-size: 30px; }
+    .hero-desc { font-size: 14px; }
+    .hero-stats { gap: 20px; flex-wrap: wrap; }
+    .stat-num { font-size: 22px; }
+
+    .nav-tabs { padding: 0 12px; top: 52px; }
+    .nav-tab { padding: 12px 14px 10px; font-size: 12px; }
+
+    .main-content { padding: 24px 20px 48px; }
+
+    .section-title { font-size: 22px; }
+
+    .steps-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .settings-grid { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .responsive-grid-3 { grid-template-columns: 1fr !important; }
+    .responsive-grid-2 { grid-template-columns: 1fr !important; }
+
+    .sheets-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+    .track-progress { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .track-progress-left { width: 100%; }
+
+    .dace-table { font-size: 12px; min-width: 500px; }
+    .dace-table th, .dace-table td { padding: 6px 8px; }
+
+    .results-table { font-size: 12px; min-width: 800px; }
+    .results-table th, .results-table td { padding: 8px 10px; }
+  }
+
+  /* ─── RESPONSIVE: MOBILE (≤ 480px) ─── */
+  @media (max-width: 480px) {
+    .site-header { padding: 0 16px; height: 48px; }
+    .site-header .logo { font-size: 15px; }
+    .header-meta { display: none; }
+
+    .hero { padding: 28px 16px 24px; }
+    .hero h1 { font-size: 26px; }
+    .hero-desc { font-size: 13px; margin-bottom: 20px; }
+    .hero-stats { gap: 16px; }
+    .stat-num { font-size: 20px; }
+    .stat-label { font-size: 10px; }
+
+    .nav-tabs { padding: 0 8px; top: 48px; gap: 0; }
+    .nav-tab { padding: 10px 10px 8px; font-size: 11px; gap: 5px; }
+    .tab-dot { width: 6px; height: 6px; }
+
+    .main-content { padding: 16px 16px 40px; }
+
+    .section-eyebrow { font-size: 10px; }
+    .section-title { font-size: 20px; }
+    .section-desc { font-size: 13px; }
+
+    .step-card { padding: 16px; }
+    .step-num { font-size: 18px; min-width: 22px; }
+    .step-name { font-size: 14px; }
+    .step-header { gap: 10px; }
+
+    .callout { padding: 12px 14px; }
+    .callout p { font-size: 12px; }
+
+    .gem-prompt { padding: 12px 14px; }
+    .gem-text { font-size: 12px; }
+
+    .kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .kpi-card { padding: 12px; }
+    .kpi-value { font-size: 22px; }
+
+    .resource-link { padding: 5px 12px; font-size: 11px; }
+
+    .sheets-banner { padding: 12px 14px; }
+    .sheets-banner-text { font-size: 12px; }
+    .sheets-banner-text span { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
@@ -795,7 +896,7 @@
           </div>
           <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-3);">
             <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 10px;">Speaker selection criteria</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div class="responsive-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
               <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
                 <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">What to look for</div>
                 <ul style="list-style: none; font-size: 12px; color: var(--ink-2); line-height: 1.8;">
@@ -837,7 +938,7 @@
           <div class="step-expand">+</div>
         </div>
         <div class="step-body">
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
+          <div class="responsive-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
             <div style="background: var(--virtual-light); border: 1px solid rgba(45,122,90,0.2); border-radius: var(--radius-sm); padding: 12px 14px;">
               <div style="font-size: 12px; font-weight: 600; color: var(--virtual); margin-bottom: 6px;">Live Webinar</div>
               <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Real-time interaction with panelists and attendees. Best for Q&amp;A-heavy events, new audiences, or high-conversion goals. Requires full production support.</div>
@@ -856,7 +957,8 @@
           </div>
           <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px;">
             <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 8px;">Key differences at a glance</div>
-            <table style="width:100%; font-size: 11px; border-collapse: collapse;">
+            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+            <table style="width:100%; font-size: 11px; border-collapse: collapse; min-width: 420px;">
               <tr style="background: var(--cream-3);">
                 <td style="padding: 5px 8px; font-weight: 600;"></td>
                 <td style="padding: 5px 8px; font-weight: 600; color: var(--virtual);">Live</td>
@@ -869,6 +971,7 @@
               <tr style="background: var(--cream);"><td style="padding: 5px 8px; color: var(--ink-3);">Zoom setup required</td><td style="padding: 5px 8px;">Full setup</td><td style="padding: 5px 8px;">Full setup</td><td style="padding: 5px 8px;">Minimal</td></tr>
               <tr><td style="padding: 5px 8px; color: var(--ink-3);">Typical use</td><td style="padding: 5px 8px;">Pro series, IM events</td><td style="padding: 5px 8px;">CP2E TTL/QBL series</td><td style="padding: 5px 8px;">Canada, off-season reach</td></tr>
             </table>
+            </div>
           </div>
           <div class="gem-prompt">
             <div class="gem-label">Event Gem Prompt</div>
@@ -906,7 +1009,7 @@
           <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-3);">
             <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 10px;">Culture of testing</div>
             <p style="font-size: 12px; color: var(--ink-2); margin-bottom: 10px; line-height: 1.6;">Continuously test to improve performance. Run one test per send — change only one variable at a time so results are meaningful.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="responsive-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
                 <div style="font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Email invite testing</div>
                 <ul style="list-style: none; font-size: 12px; color: var(--ink-2); line-height: 1.8;">
@@ -1039,7 +1142,7 @@
           <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-3);">
             <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 10px;">Feedback &amp; continuous improvement</div>
             <p style="font-size: 12px; color: var(--ink-2); margin-bottom: 10px; line-height: 1.6;">Go beyond SurveyMonkey. Use multiple feedback channels to build a complete picture of what worked and what to improve.</p>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;">
+            <div class="responsive-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;">
               <div style="background: var(--cream); border-radius: var(--radius-sm); padding: 12px 14px;">
                 <div style="font-size: 12px; font-weight: 600; color: var(--virtual); margin-bottom: 6px;">SurveyMonkey</div>
                 <div style="font-size: 11px; color: var(--ink-2); line-height: 1.7;">Primary post-event feedback tool. Captures quantitative NPS and qualitative comments from attendees. Send within 24 hours of event close.</div>
@@ -1338,7 +1441,7 @@
     <div class="divider"></div>
     <h3 style="font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 16px;">Day-of production sequence</h3>
 
-    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden;">
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch;">
       <table class="dace-table">
         <thead>
           <tr><th>When</th><th>Action</th><th>Who</th></tr>
@@ -1363,7 +1466,7 @@
     <p class="section-desc">Who does what — and how TM decides whether to lead, support, or decline an event request. Use the DACE tables to distribute work before the first planning meeting.</p>
 
     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">Event intake criteria</h3>
-    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden; margin-bottom: 28px;">
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 28px;">
       <table class="dace-table">
         <thead><tr><th>TM Role</th><th>Criteria to qualify</th><th>TM contribution</th></tr></thead>
         <tbody>
@@ -1392,7 +1495,7 @@
     </div>
 
     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">DACE — Virtual events (webinar)</h3>
-    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden; margin-bottom: 28px;">
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 28px;">
       <table class="dace-table">
         <thead><tr><th>Task</th><th>TM</th><th>TA / Recruiters</th><th>T4i</th></tr></thead>
         <tbody>
@@ -1410,7 +1513,7 @@
     </div>
 
     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">DACE — In-person events</h3>
-    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden;">
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch;">
       <table class="dace-table">
         <thead><tr><th>Task</th><th>TM</th><th>TA / Recruiters</th><th>Other</th></tr></thead>
         <tbody>
@@ -1588,7 +1691,7 @@
     </div>
 
     <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 14px; margin-top: 24px;">Key partner contacts</h3>
-    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow: hidden;">
+    <div style="background: var(--white); border: 1px solid var(--cream-3); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch;">
       <table class="dace-table">
         <thead><tr><th>Team / Function</th><th>Contact / Process</th><th>Used for</th></tr></thead>
         <tbody>
@@ -1689,8 +1792,8 @@ function resetPanel(panelId) {
   } else {
     btn.dataset.confirming = 'true';
     btn.textContent = 'Tap again to confirm';
-    btn.style.borderColor = '#d4521a';
-    btn.style.color = '#d4521a';
+    btn.style.borderColor = '#33B5FF';
+    btn.style.color = '#33B5FF';
     setTimeout(() => {
       if (btn.dataset.confirming) {
         btn.textContent = '\u21ba Reset';
